@@ -1,6 +1,6 @@
-module Redis
+class Redis
   module Stream
-    module Wrapper
+    class Wrapper
       VERSION = "0.1.0"
     end
   end

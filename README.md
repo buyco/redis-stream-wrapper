@@ -1,4 +1,4 @@
-# Redis::Stream::Wrapper
+# Redis::Stream::Wrapper [![Build Status](https://travis-ci.com/buyco/redis-stream-wrapper.svg?branch=master)](https://travis-ci.com/buyco/redis-stream-wrapper) [![license](https://img.shields.io/github/license/buyco/redis-stream-wrapper.svg?maxAge=2592000)](https://github.com/buyco/redis-stream-wrapper/LICENSE)
 
 ## Installation
 

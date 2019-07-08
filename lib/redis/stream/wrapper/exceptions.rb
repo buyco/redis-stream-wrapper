@@ -1,6 +1,6 @@
-module Redis
+class Redis
   module Stream
-    module Wrapper
+    class Wrapper
       class StreamReadError < StandardError; end
     end
   end

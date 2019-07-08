@@ -1,5 +1,8 @@
 require "bundler/setup"
 require "redis/stream/wrapper"
+require "redis/stream/wrapper/message"
+
+require "redis"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
