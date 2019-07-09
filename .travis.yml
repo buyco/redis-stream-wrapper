@@ -1,17 +1,22 @@
----
-sudo: false
 language: ruby
+
 cache: bundler
+
+services:
+  - redis-server
+
 rvm:
   - 2.6.3
-before_install: gem install bundler -v 2.0
 
-addons:
-  apt:
-    packages:
-      - redis-server
+sudo: false
+
+env:
+  global:
+    - REDIS_HOST=localhost
+    - REDIS_PORT=6379
+    - REDIS_DB=1
 
 install:
-  - bundle install --path vendor/bundle
+  - bin/setup
 
-script: bundle exec rspec
+script: rake spec

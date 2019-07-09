@@ -6,7 +6,7 @@ RSpec.describe Redis::Stream::Wrapper do
   let(:group) { "test-group" }
   let(:message_without_id) { ::Redis::Stream::Wrapper::Message.new(stream: stream_name, payload: payload) }
   let(:wrapper_instance) { described_class.new(redis_client_instance) }
-  let(:redis_client_instance) { ::Redis.new(host: "localhost", port: 6379, db: 1) }
+  let(:redis_client_instance) { ::Redis.new(host: ENV.fetch("REDIS_HOST", "localhost"), port: ENV.fetch("REDIS_PORT", 6379), db: ENV.fetch("REDIS_DB", 1)) }
 
   it "has a version number" do
     expect(Redis::Stream::Wrapper::VERSION).not_to be nil
