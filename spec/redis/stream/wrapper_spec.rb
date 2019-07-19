@@ -8,6 +8,10 @@ RSpec.describe Redis::Stream::Wrapper do
   let(:wrapper_instance) { described_class.new(redis_client_instance) }
   let(:redis_client_instance) { ::Redis.new(host: ENV.fetch("REDIS_HOST", "localhost"), port: ENV.fetch("REDIS_PORT", 6379), db: ENV.fetch("REDIS_DB", 1)) }
 
+  before(:each) do
+    redis_client_instance.flushall
+  end
+
   it "has a version number" do
     expect(Redis::Stream::Wrapper::VERSION).not_to be nil
   end
@@ -38,19 +42,30 @@ RSpec.describe Redis::Stream::Wrapper do
   end
 
   it "should return 0 on delete when group does not exist" do
-    delete_grp_response = wrapper_instance.delete_group(group, message_without_id.stream)
-    expect(delete_grp_response).to be_equal(0)
+    expect{wrapper_instance.delete_group(group, message_without_id.stream)}
+      .to raise_error(::Redis::CommandError, /ERR The XGROUP subcommand requires the key to exist/)
+  end
+
+  it "should listen messages, ack and delete it" do
+    wrapper_instance.create_group(group, message_without_id.stream)
+    message = nil
+    message_with_id = wrapper_instance.add_message(message_without_id)
+    wrapper_instance.listen(group, "test-consumer", { message_without_id.stream => ">"}) do |msg|
+      message = msg
+      wrapper_instance.stop_listening
+    end
+    expect(message).to be_a(::Redis::Stream::Wrapper::Message)
+    wrapper_instance.ack_message(group, message_with_id)
+    wrapper_instance.delete_message(message_with_id)
+    wrapper_instance.delete_group(group, message_without_id.stream)
   end
 
   it "should read messages, ack and delete it" do
     wrapper_instance.create_group(group, message_without_id.stream)
-    message = nil
     message_with_id = wrapper_instance.add_message(message_without_id)
-    wrapper_instance.read(group, "test-consumer", { message_without_id.stream => ">"}) do |msg|
-      message = msg
-      wrapper_instance.stop_read
-    end
-    expect(message).to be_a(::Redis::Stream::Wrapper::Message)
+    message = wrapper_instance.read(group, "test-consumer", { message_without_id.stream => ">"})
+
+    expect(message.first).to be_a(::Redis::Stream::Wrapper::Message)
     wrapper_instance.ack_message(group, message_with_id)
     wrapper_instance.delete_message(message_with_id)
     wrapper_instance.delete_group(group, message_without_id.stream)

@@ -4,7 +4,6 @@ class Redis
   module Stream
     class Wrapper
 
-      ##
       # Creates a new instance if a Stream.
       #
       # @param redis - An instance of Redis.
@@ -12,11 +11,10 @@ class Redis
       #
       def initialize(redis, read_timeout_ms = 1000)
         @redis = redis
-        @reading = false
+        @listening = false
         @read_timeout_ms = read_timeout_ms
       end
 
-      ##
       # Deletes the stream.
       #
       # @param stream_name - The name of the stream to delete
@@ -25,7 +23,6 @@ class Redis
         @redis.del(stream_name)
       end
 
-      ##
       # Adds a new message to the stream.
       #
       # @param message - The message to add to the stream
@@ -35,20 +32,19 @@ class Redis
         copy_message(message, @redis.xadd(message.stream, message.payload, id: message.id))
       end
 
-      ##
-      # Starts reading stream messages.
+      # Starts reading stream messages looping
       #
       # @param group - A group to read stream
       # @param consumer_name - A consumer name
       # @param streams - A hash {:stream_name => 'stream_begin_value'}
       # @param opts - A hash of options
       #
-      def read(group, consumer_name, streams, opts = {})
-        raise StreamReadError, 'Already reading stream' if @reading
+      def listen(group, consumer_name, streams, opts = {})
+        raise StreamReadError, "Already listening [#{stream}] stream" if @listening
 
-        @reading = true
+        @listening = true
         opts[:block] = @read_timeout_ms if opts[:block].nil?
-        while @reading
+        while @listening
           results = @redis.xreadgroup(group, consumer_name, streams.keys, streams.values, opts)
           next unless results
 
@@ -58,7 +54,23 @@ class Redis
         end
       end
 
-      ##
+      # Starts reading stream messages.
+      #
+      # @param group - A group to read stream
+      # @param consumer_name - A consumer name
+      # @param streams - A hash {:stream_name => 'stream_begin_value'}
+      # @param opts - A hash of options
+      #
+      def read(group, consumer_name, streams, opts = {})
+        opts[:block] = @read_timeout_ms if opts[:block].nil?
+        results = @redis.xreadgroup(group, consumer_name, streams.keys, streams.values, opts)
+        return unless results
+
+        parse_read_response(results).each.map do |message|
+          message
+        end
+      end
+
       # ACK stream message.
       #
       # @param group - The group that ack
@@ -68,7 +80,6 @@ class Redis
         @redis.xack(message.stream, group, message.id)
       end
 
-      ##
       # Delete stream message.
       #
       # @param message - The message to add to the stream
@@ -77,7 +88,6 @@ class Redis
         @redis.xdel(message.stream, message.id)
       end
 
-      ##
       # Create group stream message.
       #
       # @param name - The group name
@@ -89,7 +99,6 @@ class Redis
         @redis.xgroup(:create, stream, name, start, mkstream: create_default_stream)
       end
 
-      ##
       # Delete group stream message.
       #
       # @param name - The group name
@@ -99,7 +108,6 @@ class Redis
         @redis.xgroup(:destroy, stream, name)
       end
 
-      ##
       # Delete group stream message.
       #
       # @param name - The group name
@@ -110,11 +118,10 @@ class Redis
         @redis.xgroup(:delconsumer, stream, name, consumer)
       end
 
-      ##
       # Stops reading message stream(s)
       #
-      def stop_read
-        @reading = false
+      def stop_listening
+        @listening = false
       end
 
       private
@@ -131,7 +138,6 @@ class Redis
         end.flatten.compact
       end
 
-      ##
       # Returns a copy of the current instance, with the id set.
       #
       def copy_message(message, new_id)
