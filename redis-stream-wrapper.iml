@@ -382,5 +382,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="bundler (v2.0.2, rbenv: 2.6.3) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="dry-struct (v0.6.0, rbenv: 2.6.3) [gem]" level="application" />
   </component>
 </module>

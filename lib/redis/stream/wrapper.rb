@@ -1,5 +1,4 @@
 require 'dry-struct'
-require 'byebug'
 class Redis
   module Stream
     class Wrapper
