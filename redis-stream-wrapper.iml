@@ -96,24 +96,24 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="dry-container (vbundled(0.7.1)) [path][gem]" type="rubylib">
+      <library name="dry-container (vbundled(0.7.2)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
         </properties>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.1/lib" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.1/spec" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.1/rakelib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.2/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.2/spec" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.2/rakelib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.1/lib" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.1/spec" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.1/rakelib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.2/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.2/spec" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.2/rakelib" />
         </SOURCES>
         <excluded>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.1/spec" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.1/rakelib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.2/spec" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/dry-container-0.7.2/rakelib" />
         </excluded>
       </library>
     </orderEntry>
