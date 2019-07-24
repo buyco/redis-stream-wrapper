@@ -64,10 +64,17 @@ RSpec.describe Redis::Stream::Wrapper do
     wrapper_instance.create_group(group, message_without_id.stream)
     message_with_id = wrapper_instance.add_message(message_without_id)
     message = wrapper_instance.read(group, "test-consumer", { message_without_id.stream => ">"})
-
     expect(message.first).to be_a(::Redis::Stream::Wrapper::Message)
     wrapper_instance.ack_message(group, message_with_id)
     wrapper_instance.delete_message(message_with_id)
     wrapper_instance.delete_group(group, message_without_id.stream)
+  end
+
+  it "should get stream and group info" do
+    wrapper_instance.create_group(group, message_without_id.stream)
+    resp = wrapper_instance.info(:stream, message_without_id.stream)
+    expect(resp).to be_a(Hash)
+    resp = wrapper_instance.info(:groups, message_without_id.stream)
+    expect(resp).to be_a(Array)
   end
 end

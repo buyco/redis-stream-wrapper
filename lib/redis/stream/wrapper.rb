@@ -99,6 +99,16 @@ class Redis
         @redis.xgroup(:create, stream, name, start, mkstream: create_default_stream)
       end
 
+      # Get info about streams / groups and consumers.
+      #
+      # @param type - The type
+      # @param key - The concerned stream / group name
+      # @param group - The group name for consumer type
+      #
+      def info(type, key, group = nil)
+        @redis.xinfo(type, key, group)
+      end
+
       # Delete group stream message.
       #
       # @param name - The group name
