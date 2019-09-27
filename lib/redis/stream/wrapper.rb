@@ -1,4 +1,5 @@
 require 'dry-struct'
+require 'redis/stream/wrapper/message'
 class Redis
   module Stream
     class Wrapper
@@ -140,11 +141,19 @@ class Redis
           messages.map do |id, payload|
             Message.new(
               stream: stream_name,
-              payload: Hash[payload.each_slice(2).to_a],
+              payload: parse_payload(payload),
               id: id
             )
           end
         end.flatten.compact
+      end
+
+      def parse_payload(payload)
+        if payload.is_a? Array
+          Hash[payload.each_slice(2).to_a]
+        else
+          payload
+        end
       end
 
       # Returns a copy of the current instance, with the id set.

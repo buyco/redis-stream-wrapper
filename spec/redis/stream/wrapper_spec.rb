@@ -2,6 +2,7 @@ require 'spec_helper'
 RSpec.describe Redis::Stream::Wrapper do
 
   let(:stream_name) { "stream-test" }
+  let(:array_payload) { %w[foo bar woo xoo] }
   let(:payload) { { "foo" => "bar", "woo" => "xoo" } }
   let(:group) { "test-group" }
   let(:message_without_id) { ::Redis::Stream::Wrapper::Message.new(stream: stream_name, payload: payload) }
@@ -76,5 +77,15 @@ RSpec.describe Redis::Stream::Wrapper do
     expect(resp).to be_a(Hash)
     resp = wrapper_instance.info(:groups, message_without_id.stream)
     expect(resp).to be_a(Array)
+  end
+
+  it "should parse array payloads into Hash" do
+    resp = wrapper_instance.send(:parse_payload, array_payload)
+    expect(resp).to match(payload)
+  end
+
+  it "should not parse Hash payloads" do
+    resp = wrapper_instance.send(:parse_payload, payload)
+    expect(resp).to match(payload)
   end
 end
