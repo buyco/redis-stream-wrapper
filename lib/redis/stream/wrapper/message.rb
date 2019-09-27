@@ -7,7 +7,7 @@ class Redis
       class Message < ::Dry::Struct::Value
         # Types = ::Dry.Types(default: :nominal)
         attribute :stream, ::Types::Coercible::String
-        attribute :id, ::Types::Coercible::String.optional.default('*')
+        attribute :id, ::Types::Coercible::String.optional.default('*'.freeze)
         attribute :payload, ::Types::Hash.map(::Types::Coercible::String, ::Types::Coercible::String)
       end
     end
