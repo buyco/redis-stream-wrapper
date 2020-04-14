@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    redis-stream-wrapper (0.1.5)
+    redis-stream-wrapper (0.1.6)
       dry-struct
 
 GEM
