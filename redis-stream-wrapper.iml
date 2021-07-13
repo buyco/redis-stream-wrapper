@@ -259,36 +259,7 @@
         </SOURCES>
         <excluded>
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ice_nine-0.11.2/spec" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ice_nine-0.11.2/config" />
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/ice_nine-0.11.2/benchmarks" />
-        </excluded>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="rake (vbundled(10.5.0)) [path][gem]" type="rubylib">
-        <properties>
-          <option name="version" value="4" />
-        </properties>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/bin" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/doc" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/lib" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/test" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/rakelib" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/bin" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/doc" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/lib" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/test" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/rakelib" />
-        </SOURCES>
-        <excluded>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/bin" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/doc" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/test" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.6.0/gems/rake-10.5.0/rakelib" />
         </excluded>
       </library>
     </orderEntry>
@@ -382,5 +353,11 @@
       </library>
     </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="bundler (v2.0.2, rbenv: 2.6.3) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rake (v13.0.1, rbenv: 2.6.3) [gem]" level="application" />
+  </component>
+  <component name="RakeTasksCache">
+    <option name="myRootTask">
+      <RakeTaskImpl id="rake" />
+    </option>
   </component>
 </module>
