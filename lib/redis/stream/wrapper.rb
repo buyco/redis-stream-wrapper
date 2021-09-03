@@ -45,7 +45,7 @@ class Redis
         @listening = true
         opts[:block] = @read_timeout_ms if opts[:block].nil?
         while @listening
-          results = @redis.xreadgroup(group, consumer_name, streams.keys, streams.values, opts)
+          results = @redis.xreadgroup(group, consumer_name, streams.keys, streams.values, **opts)
           next unless results
 
           parse_read_response(results).each do |message|
@@ -63,7 +63,7 @@ class Redis
       #
       def read(group, consumer_name, streams, opts = {})
         opts[:block] = @read_timeout_ms if opts[:block].nil?
-        results = @redis.xreadgroup(group, consumer_name, streams.keys, streams.values, opts)
+        results = @redis.xreadgroup(group, consumer_name, streams.keys, streams.values, **opts)
         return unless results
 
         parse_read_response(results).each.map do |message|
