@@ -1,5 +1,8 @@
 require 'dry-struct'
 require 'redis/stream/wrapper/message'
+require 'redis/stream/wrapper/version'
+require 'redis/stream/wrapper/exceptions'
+
 class Redis
   module Stream
     class Wrapper
@@ -40,7 +43,7 @@ class Redis
       # @param opts - A hash of options
       #
       def listen(group, consumer_name, streams, opts = {})
-        raise StreamReadError, "Already listening [#{stream}] stream" if @listening
+        raise StreamReadError, "Already listening #{streams.keys} stream" if @listening
 
         @listening = true
         opts[:block] = @read_timeout_ms if opts[:block].nil?
