@@ -47,26 +47,26 @@ RSpec.describe Redis::Stream::Wrapper do
       .to raise_error(::Redis::CommandError, /ERR The XGROUP subcommand requires the key to exist/)
   end
 
-  it "should listen messages, ack and delete it" do
+  it "should listen messages, noack and delete it" do
     wrapper_instance.create_group(group, message_without_id.stream)
     message = nil
     message_with_id = wrapper_instance.add_message(message_without_id)
-    wrapper_instance.listen(group, "test-consumer", { message_without_id.stream => ">"}) do |msg|
+    wrapper_instance.listen(group, "test-consumer", { message_without_id.stream => ">"}, { noack: true }) do |msg|
       message = msg
       wrapper_instance.stop_listening
     end
     expect(message).to be_a(::Redis::Stream::Wrapper::Message)
-    wrapper_instance.ack_message(group, message_with_id)
+    expect(wrapper_instance.ack_message(group, message_with_id)).to eq(0)
     wrapper_instance.delete_message(message_with_id)
     wrapper_instance.delete_group(group, message_without_id.stream)
   end
 
-  it "should read messages, ack and delete it" do
+  it "should read messages, noack and delete it" do
     wrapper_instance.create_group(group, message_without_id.stream)
     message_with_id = wrapper_instance.add_message(message_without_id)
-    message = wrapper_instance.read(group, "test-consumer", { message_without_id.stream => ">"})
+    message = wrapper_instance.read(group, "test-consumer", { message_without_id.stream => ">"}, { noack: true })
     expect(message.first).to be_a(::Redis::Stream::Wrapper::Message)
-    wrapper_instance.ack_message(group, message_with_id)
+    expect(wrapper_instance.ack_message(group, message_with_id)).to eq(0)
     wrapper_instance.delete_message(message_with_id)
     wrapper_instance.delete_group(group, message_without_id.stream)
   end
